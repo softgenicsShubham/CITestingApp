@@ -33,11 +33,11 @@ jobs:
     - name: Run Tests
       run: yarn test
 
-    - name: Install AWS CLI on Linux
+    - name: Install AWS CLI
       run: |
-        curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-        unzip awscliv2.zip
-        sudo ./aws/install
+        sudo apt-get install -y python3-pip
+        pip3 install awscli --upgrade --user
+        export PATH=$PATH:$HOME/.local/bin
     
     - name: Build Android
       run: cd android && ./gradlew assembleRelease
