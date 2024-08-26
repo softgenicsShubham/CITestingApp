@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - develop
+  pull_request:
 
 jobs:
   build_ios:
@@ -21,14 +22,17 @@ jobs:
     - name: Install Dependencies
       run: yarn install
 
-    - name: Lint Code
-      run: yarn lint
-
-    - name: Run Tests
-      run: yarn test
-
     - name: Install CocoaPods dependencies
       run: cd ios && pod install
 
-    - name: Build iOS
-      run: cd ios && xcodebuild -workspace CITestingApp.xcworkspace -scheme CITestingApp -sdk iphoneos -configuration Release archive -archivePath $PWD/build/CITestingApp.xcarchive
+    - name: Build iOS project for simulator
+      run: xcodebuild -workspace ios/CITestingApp.xcworkspace -scheme CITestingApp -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 14,OS=17.5' build
+
+    - name: Run Tests on iOS simulator
+      run: |
+        xcodebuild \
+          -workspace ios/CITestingApp.xcworkspace \
+          -scheme CITestingApp \
+          -sdk iphonesimulator \
+          -destination 'platform=iOS Simulator,name=iPhone 14,OS=17.5' \
+          test

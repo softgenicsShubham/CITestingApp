@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: Android Build
 
 on:
   push:
@@ -50,4 +50,4 @@ jobs:
       run: |
         TIMESTAMP=$(date +'%Y-%m-%d_%H-%M-%S')
         APK_FILENAME="app-release-$TIMESTAMP.apk"
-        aws s3 cp android/app/build/outputs/apk/release/app-release.apk s3://dreamapplication/apks/ --region $AWS_REGION
+        aws s3 cp android/app/build/outputs/apk/release/app-release.apk s3://dreamapplication/apks/$APK_FILENAME --region $AWS_REGION
